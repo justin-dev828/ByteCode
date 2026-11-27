@@ -1,0 +1,86 @@
+:root { --bg:#0b0a1a; --flaeche:#15132b; --text:#e9e7ff; --lila:#a855f7; --blau:#38bdf8; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:"Segoe UI",Arial,sans-serif; line-height:1.6; }
+a { color:var(--blau); }
+
+nav { position:sticky; top:0; z-index:10; display:flex; justify-content:space-between; align-items:center; padding:12px 20px; background:rgba(11,10,26,.94); border-bottom:1px solid var(--lila); }
+.logo { font-weight:800; font-size:1.2rem; letter-spacing:1px; color:var(--text); text-decoration:none; }
+.logo span, h1 span { color:var(--lila); }
+nav .links { display:flex; align-items:center; flex-wrap:wrap; }
+nav .links a { margin-left:16px; text-decoration:none; color:var(--text); font-size:.95rem; }
+nav .links a:hover, nav .links a.aktiv { color:var(--blau); }
+nav .links a.btn { color:var(--text); }
+
+.btn { display:inline-block; padding:10px 20px; border-radius:8px; border:2px solid var(--lila); color:var(--text); background:transparent; text-decoration:none; cursor:pointer; font-size:1rem; font-family:inherit; }
+.btn:hover { background:var(--lila); }
+.btn.voll { background:linear-gradient(90deg,var(--lila),var(--blau)); border:none; color:#0b0a1a; font-weight:700; }
+.btn.aus { opacity:.45; cursor:not-allowed; pointer-events:none; }
+
+header.hero { text-align:center; padding:90px 20px 60px; }
+.hero h1 { font-size:clamp(2.4rem,8vw,4.5rem); margin:0; }
+.hero p { max-width:560px; margin:14px auto 26px; opacity:.85; }
+header.seitenkopf { max-width:900px; margin:0 auto; padding:50px 20px 10px; }
+.seitenkopf h1 { margin:0; font-size:2.4rem; }
+.seitenkopf p { opacity:.8; margin:6px 0 0; }
+
+section { max-width:900px; margin:0 auto; padding:40px 20px; }
+section h2 { margin-top:0; font-size:1.8rem; border-left:5px solid var(--lila); padding-left:12px; }
+
+.werkzeuge { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+.werkzeuge input, .werkzeuge select { padding:10px; font-size:1rem; border-radius:8px; border:1px solid var(--lila); background:var(--flaeche); color:var(--text); font-family:inherit; }
+.werkzeuge input { flex:1; min-width:180px; }
+.filter { margin-bottom:18px; display:flex; flex-wrap:wrap; gap:8px; }
+.filter .btn { padding:6px 14px; font-size:.9rem; }
+.filter .btn.aktiv { background:var(--lila); }
+
+.raster { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+.karte { position:relative; background:var(--flaeche); border:1px solid #2c2850; border-radius:12px; padding:18px; display:flex; flex-direction:column; }
+.karte h3 { margin:0 0 6px; }
+.karte p { flex:1; margin:0 0 12px; opacity:.85; }
+.tags span { font-size:.75rem; padding:2px 8px; margin-right:6px; border-radius:20px; background:#2c2850; color:var(--blau); }
+.preis { font-size:1.3rem; font-weight:700; color:var(--lila); margin:12px 0; }
+.badge { position:absolute; top:12px; right:12px; font-size:.75rem; font-weight:700; padding:2px 10px; border-radius:20px; background:var(--blau); color:#0b0a1a; }
+.badge.aus { background:#ef4444; color:white; }
+.leer { opacity:.7; padding:20px 0; }
+
+.lizenz { background:var(--flaeche); border:1px solid var(--lila); border-radius:12px; padding:18px 22px; }
+.lizenz h2 { border:none; padding:0; font-size:1.3rem; }
+.lizenz ul { margin:0; padding-left:20px; }
+
+.skill { margin-bottom:12px; }
+.balken { height:10px; background:#2c2850; border-radius:6px; overflow:hidden; }
+.balken div { height:100%; background:linear-gradient(90deg,var(--lila),var(--blau)); }
+.mitte { text-align:center; margin-top:20px; }
+
+footer { text-align:center; padding:40px 20px; opacity:.6; font-size:.9rem; }
+@media (max-width:640px) { nav .links a:not(.haupt):not(.btn) { display:none; } }
+
+/* ===== Sale, Beta, Warenkorb, Dev-Panel ===== */
+.sale { text-align:center; padding:8px 12px; font-weight:700; background:linear-gradient(90deg,var(--lila),var(--blau)); color:#0b0a1a; }
+.beta { font-size:.6rem; padding:2px 6px; border-radius:4px; background:var(--blau); color:#0b0a1a; vertical-align:middle; }
+.gate { position:fixed; inset:0; z-index:100; background:var(--bg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:20px; text-align:center; }
+.gate h1 { margin:0; font-size:2.6rem; }
+.gate input, .coderow input { padding:10px; font-size:1rem; border-radius:8px; border:1px solid var(--lila); background:var(--flaeche); color:var(--text); }
+
+.karte { transition:transform .2s, box-shadow .2s, border-color .2s; }
+.karte:hover { transform:translateY(-4px); border-color:var(--lila); box-shadow:0 0 22px rgba(168,85,247,.35); }
+.badge.sale { background:var(--lila); color:white; }
+.preis .alt { opacity:.5; font-weight:400; font-size:.95rem; margin-right:4px; }
+.preis strong { color:var(--blau); }
+.karte .btn { text-align:center; }
+
+.drawer { position:fixed; top:0; right:0; height:100%; width:min(360px,100%); z-index:50; padding:18px; overflow-y:auto; background:var(--flaeche); border-left:2px solid var(--lila); transform:translateX(105%); transition:transform .25s; display:flex; flex-direction:column; gap:10px; }
+.drawer.offen { transform:none; }
+.drawer > div:last-child { display:flex; flex-direction:column; gap:10px; }
+.drawerkopf { display:flex; justify-content:space-between; align-items:center; }
+.drawerkopf h2 { margin:0; border:none; padding:0; font-size:1.4rem; }
+.zeile { display:flex; gap:10px; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid #2c2850; }
+.zeile span:first-child { flex:1; }
+.x { background:none; border:none; color:var(--text); font-size:1.1rem; cursor:pointer; }
+.coderow { display:flex; gap:8px; } .coderow input { flex:1; min-width:0; }
+.hinweis { margin:0; font-size:.9rem; color:var(--blau); }
+.gesamt { font-size:1.3rem; font-weight:700; color:var(--lila); }
+
+.dev { position:fixed; left:12px; bottom:12px; z-index:40; display:flex; flex-direction:column; gap:4px; padding:10px 14px; border-radius:10px; background:var(--flaeche); border:1px dashed var(--blau); font-size:.85rem; max-width:210px; }
+.dev input[type=number] { width:60px; }

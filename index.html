@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Byte Code</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero" id="hero"></header>
+  <main id="inhalt"></main>
+  <footer id="footer"></footer>
+
+  <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script>
+    seiteStarten("start", "Start", function () {
+
+    // Startbereich
+    const hero = document.getElementById("hero");
+    const h1 = el("h1");
+    h1.append(farbigerName(CONFIG.name, CONFIG.titelTeil));
+    const zumShop = el("a", "btn voll", "Zum Shop");
+    zumShop.href = "shop.html";
+    hero.append(h1, el("p", "", CONFIG.tagline), zumShop);
+
+    const inhalt = document.getElementById("inhalt");
+    function bereich(id, titel) {
+      const s = el("section");
+      s.id = id;
+      s.append(el("h2", "", titel));
+      inhalt.append(s);
+      return s;
+    }
+
+    // Shop-Vorschau: nur die ersten Produkte, der Rest ist im Shop
+    if (CONFIG.zeigen.shopVorschau) {
+      const s = bereich("vorschau", "Beliebte Produkte");
+      const raster = el("div", "raster");
+      window.neuZeichnen = () => raster.replaceChildren(...CONFIG.produkte.slice(0, CONFIG.shop.vorschauAnzahl).map(produktKarte));
+      window.neuZeichnen();
+      const mehr = el("div", "mitte");
+      const knopf = el("a", "btn", "Alle Produkte im Shop ansehen");
+      knopf.href = "shop.html";
+      mehr.append(knopf);
+      s.append(raster, mehr);
+    }
+
+    if (CONFIG.zeigen.skills) {
+      const s = bereich("skills", "Skills");
+      CONFIG.skills.forEach(sk => {
+        const box = el("div", "skill");
+        const balken = el("div", "balken");
+        const fuell = el("div");
+        fuell.style.width = Math.max(0, Math.min(100, sk.level)) + "%";
+        balken.append(fuell);
+        box.append(el("div", "", sk.name + " (" + sk.level + " %)"), balken);
+        s.append(box);
+      });
+    }
+
+    if (CONFIG.zeigen.ueberMich) {
+      bereich("ueberMich", "Über mich").append(el("p", "", CONFIG.ueberMich));
+    }
+
+    if (CONFIG.zeigen.kontakt) {
+      const s = bereich("kontakt", "Kontakt");
+      CONFIG.kontakt.forEach(k => {
+        const a = externerLink(k.text, "btn", k.url);
+        a.style.marginRight = "10px";
+        s.append(a);
+      });
+    }
+    });
+  </script>
+</body>
+</html>
