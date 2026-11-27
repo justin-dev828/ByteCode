@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="seitenkopf" id="kopf"></header>
+  <section>
+    <div class="werkzeuge">
+      <input id="suche" type="search" placeholder="Produkte suchen ...">
+      <select id="sortierung">
+        <option value="standard">Sortierung: Standard</option>
+        <option value="preisAuf">Preis aufsteigend</option>
+        <option value="preisAb">Preis absteigend</option>
+        <option value="name">Name A-Z</option>
+      </select>
+    </div>
+    <div class="filter" id="filter"></div>
+    <div class="raster" id="raster"></div>
+    <p class="leer" id="leer" hidden>Keine Produkte gefunden. Versuche einen anderen Suchbegriff oder Filter.</p>
+  </section>
+  <section>
+    <div class="lizenz" id="lizenz"></div>
+  </section>
+  <footer id="footer"></footer>
+
+  <script src="config.js"></script>
+  <script src="common.js"></script>
+  <script>
+    seiteStarten("shop", CONFIG.shop.titel);
+
+    // Seitenkopf
+    const kopf = document.getElementById("kopf");
+    kopf.append(el("h1", "", CONFIG.shop.titel), el("p", "", CONFIG.shop.beschreibung));
+
+    // Lizenz-Box
+    const lizenz = document.getElementById("lizenz");
+    const ul = el("ul");
+    CONFIG.shop.lizenz.forEach(zeile => ul.append(el("li", "", zeile)));
+    lizenz.append(el("h2", "", CONFIG.shop.lizenzTitel), ul);
+
+    // Suche, Filter, Sortierung
+    const suche = document.getElementById("suche");
+    const sortierung = document.getElementById("sortierung");
+    const filter = document.getElementById("filter");
+    const raster = document.getElementById("raster");
+    const leer = document.getElementById("leer");
+    const alleTags = ["Alle", ...new Set(CONFIG.produkte.flatMap(p => p.tags))];
+    let aktiverTag = "Alle";
+
+    function zeichnen() {
+      // Filter-Knöpfe
+      filter.replaceChildren();
+      alleTags.forEach(t => {
+        const b = el("button", "btn" + (t === aktiverTag ? " aktiv" : ""), t);
+        b.onclick = () => { aktiverTag = t; zeichnen(); };
+        filter.append(b);
+      });
+
+      // Produkte auswählen
+      const begriff = suche.value.trim().toLowerCase();
+      let liste = CONFIG.produkte.filter(p =>
+        (aktiverTag === "Alle" || p.tags.includes(aktiverTag)) &&
+        (p.name + " " + p.beschreibung + " " + p.tags.join(" ")).toLowerCase().includes(begriff)
+      );
+
+      // Sortieren
+      const s = sortierung.value;
+      if (s === "preisAuf") liste.sort((a, b) => a.preis - b.preis);
+      if (s === "preisAb")  liste.sort((a, b) => b.preis - a.preis);
+      if (s === "name")     liste.sort((a, b) => a.name.localeCompare(b.name, "de"));
+
+      raster.replaceChildren(...liste.map(produktKarte));
+      leer.hidden = liste.length > 0;
+    }
+
+    suche.oninput = zeichnen;
+    sortierung.onchange = zeichnen;
+    zeichnen();
+  </script>
+</body>
+</html>
